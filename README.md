@@ -1,19 +1,27 @@
 # Sof01.github.io
 github domain name for whatever purpose I may find for it in the future.
 
+https://www.server-world.info/en/note?os=Debian_12&p=java&f=2
 
-# create new
-[Unit]
-Description=Apache Tomcat 10
-After=network.target
+# from Tomcat 10, migrated to Jakarta EE
+# so it needs to replace [javax.*] to [jakarta.*]
+import java.io.*;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import java.util.Calendar;
 
-[Service]
-Type=oneshot
-ExecStart=/usr/libexec/tomcat10/bin/startup.sh
-ExecStop=/usr/libexec/tomcat10/bin/shutdown.sh
-RemainAfterExit=yes
-User=tomcat
-Group=tomcat
+public class daytime extends HttpServlet {
+    public void doGet(HttpServletRequest request
+    ,HttpServletResponse response)
 
-[Install]
-WantedBy=multi-user.target
+    throws IOException, ServletException{
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        Calendar cal = Calendar.getInstance();
+        out.println("<html>\n<head>\n<title>DayTime</title>\n</head>\n<body>");
+        out.println("<div style=\"font-size: 40px; text-align: center; font-weight: bold\">");
+        out.println(cal.get(Calendar.YEAR) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + 
+        cal.get(Calendar.DATE) + " " + cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE));
+        out.println("</div>\n</body>\n</html>");
+    }
+}
